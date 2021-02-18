@@ -1,0 +1,34 @@
+{
+    "userId": "101",
+    "params": {
+      "lang": "tr",
+      "invoiceDate": "2021-02-11T14:33:41.566Z",
+      "invoiceId": 1002,
+      "restaurantName": "Kaşıbeyaz",
+      "specification": "Florya / senlikkoy",
+      "postCode": "123456",
+      "wasteOilCode": "9999",
+      "wasteOilLiters": 20,
+      "wasteOilPayment": 108.99,
+      "products": [
+        {
+          "barrelSize": 10,
+          "product": "Ay Çiçek Yağ",
+          "qty": 2,
+          "price": 17.88
+        },
+        {
+          "barrelSize": 10,
+          "product": "Ay Çiçek Yağ",
+          "qty": 2,
+          "price": 17.88
+        },
+        {
+          "barrelSize": 10,
+          "product": "Ay Çiçek Yağ",
+          "qty": 2,
+          "price": 17.88
+        }
+      ]
+    }
+  }

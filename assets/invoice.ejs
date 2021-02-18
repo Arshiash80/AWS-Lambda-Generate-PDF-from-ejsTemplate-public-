@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Template</title>
+    <!-- <link rel="stylesheet" href="./styles.css"> -->
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --clr-black: rgb(46, 46, 46);
+    --clr-gray: rgb(126, 126, 126);
+}
+
+/* || TYPOGRAPHY */
+h1 {
+    font-family: 'open_sansextrabold';
+    font-size: 1.35rem;
+    color: var(--clr-black);
+}
+h2,h3,h4 {
+    font-family: 'open_sans_semibold';
+}
+p {
+    font-family: "open_sans_regular";
+    font-size: .5rem;
+    color: var(--clr-black);
+}
+ul {
+    list-style: none;
+    color: var(--clr-black);
+}
+ul > li {
+    margin: 5px 0;
+}
+main {
+    width: 595px;
+    margin: 10px auto;
+    box-shadow: -1px 1px 10px rgba(0, 0, 0, 0.301);
+    padding: 1rem;
+}
+.pale-text {
+    color: var(--clr-gray);
+}
+.bold-text {
+    font-weight: 900;
+}
+.block-text {
+    display: block;
+    margin: 1em;
+}
+section:last-child {
+    margin-top: 1em;
+    border-top: 1px solid var(--clr-gray);
+}
+
+
+
+.total-payment {
+    position: relative;
+}
+
+.total-price-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.total-price {
+    text-align: center;
+    font-size: .8em;
+    font-weight: 900;
+    padding: 0;
+}
+
+/* ------------- Section Headers -------------*/
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.623);
+    padding: 5px;
+}
+.section-header p {
+    font-size: .85em;
+}
+
+/* ------------- Invoice Top Styles -------------*/
+.invoice-section {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-row: 2;
+    margin: 10px 0;
+    padding: 15px;
+    border: 3px solid black;
+}
+.user-detail {
+    border-right: 1px solid black;
+}
+.user-detail span.block-text, .user-detail span.header{
+    font-size: 1.5em;
+}
+.user-detail span.header {
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* __invoice detail*/
+.invoice-detail {
+    padding-left: 15px;
+}
+.invoice-detail .left-side, .invoice-detail .right-side {
+    font-size: .6rem;
+}
+.invoice-detail .flex-div {
+    font-weight: 900;
+}
+.invoice-detail .flex-div span {
+    font-weight: 100;
+}
+
+.tel-number {
+    text-align: right;
+    font-size: .9em;  
+
+}
+.flex-div {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1rem;
+}
+
+
+/* ------------- Invoice table ------------- */
+.waste-oil-detail {
+    grid-column: 1/3;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px,1fr));
+    margin-top: 10px;
+}
+.waste-oil-detail > div {
+    border-left: 2px solid;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+    border-color:  black;
+    padding: .5rem .2rem;
+    text-align: center;
+}
+.waste-oil-detail > div:last-child {
+    border-right: 2px solid;
+    padding-bottom: 0;
+}
+.waste-oil-detail > div > h3 {
+    border-bottom: 1px solid black;
+    margin-bottom: 3px;
+    font-size: .7rem;
+}
+.waste-oil-detail > div > p {
+    font-size: .45rem;
+    border-bottom: 1px solid rgb(165, 165, 165);
+}
+.waste-oil-detail > div > p:nth-child() { 
+    /* calc() ekle!!! ------------------------------------ */
+    font-size: .45rem;
+    border-bottom: none;
+}
+    </style>
+</head>
+<body>
+    
+    <main>
+        <!-- || WASTE OILS INVOICE  SECTION ------------------------------------------------------------------------>      
+        <% if (wasteOil.code !== undefined) { %>
+            <section > 
+                <!-- Inoice top header ------------------->
+                <div class="section-header">
+                    <h1>OILS 4 US LTD</h1>
+                    <p class="pale-text">Duty Of Care / Waste Transfer Note / Receipt</p>
+                </div>
+                <!-- Invoice details --------------------->
+                <div class="invoice-section">
+                    <div class="user-detail">
+                    <p>
+                            <span class="header">Waste oil  to be collected from</span>
+                            <!-- Burdaki adresi nasilyazidiricaz?? ----------------------------------------->
+                            <span id="userAdress" class="block-text">
+                                <%= address.restaurantName %> <br>
+                                <%= address.specification %> <br>
+                                <%= address.postcode %> <br>
+                            </span>
+                    </p> 
+                    </div>
+                    <div class="invoice-detail">
+                        <div class="flex-div">
+                            <ul class="left-side">
+                                <li>Address: <span>59-60 The Market Square, N9 0TZ</span></li>
+                                <li>Company Number: <span>9492866</span></li>
+                                <li>Registered Waste Carrier No: <span>CBDU41922</span></li>
+                                <li>VAT NO: <span>208 216 141</span></li>
+                            </ul>
+                            <ul class="right-side">
+                                <li>Invoice Date: <span id="invoiceDate"><%= invoice.date %></span></li>
+                                <li>Invoice NO: <span id="invoiceNo"><%= invoice.no %></span></li>
+                            </ul>
+                        </div>
+                        <p class="tel-number bold-text">Tel: 07753236299</p>
+                    </div>
+                    <div class="waste-oil-detail">
+                        <div class="waste-oil-code">
+                            <h3>WASTE OIL CODE</h3>
+                            <p><span><%= wasteOil.code %></span></p>
+                        </div>
+                        <div class="liters-of-oil">
+                            <h3>LITERS OF OIL</h3>
+                            <p><span><%= wasteOil.liters %></span></p>
+                        </div>
+                        <div class="total-payment">
+                            <h3>TOTAL PAYMENT</h3>
+                            <p>£<span><%= wasteOil.payment %></span></p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="contract-section">
+                    <p class="bold-text">Self-declaration on used cooking oils and fats (UCO) for biofuel production according to the directive 2009/28/EC under ISCC EU</p>
+                    <div class="contract-detail">
+                        <p>Only biomass defined as the biodegradable fraction of products, waste and residues from biological origin from agriculter (including vegetal and animal substances), forestry and related industries including fisheries and quaculture, as well as the biodegradable fraction of industrial and municipal waste (Directive 2009/</p>
+                        <p>Please be aware, that animal fat is not considered biomass in some member states, biofuel produced from a feed-stock of animal origin might thus not be eligible to be counted against the biofuel quota in those member state</p>
+                        <p>Vegetable oil which has been used for cooking or frying meat and therefore may be contaminated with animal content does not classify as of animal origin</p>
+        
+                        <p>By signing this self-declaration, the signatory declares that the following requirements are met: 
+                            <span class="block-text">1. The delivery consists entirely of used cooking oil (UCO) and is not mixed with fresh oil.The cooking oil is entirely of vegetable origin</span>
+                            <span class="block-text">2. Documentation of quantities delivered is available.</span> 
+                            <span class="block-text">3. Applicable national legislation regarding waste prevention and management (e.g. transport, supervison etc.) are complied with.</span> 
+                        </p>
+        
+                        <p>Note: By signing this self-declaration, this signatory acknowledges that auditors from certification bodies (may be accompanied by inspectors from authorities with the purpose to evaluate the performance of the certification body) and staff of certification schemes can examine wheter the requirements are met as stated in this self-declaration.</p>
+                    </div>
+                </div>
+
+            </section>  
+        <% } %>
+        <!-- ORDERS INVOICE SECTION ---------------------------------------------------------------------->
+        <section>
+            <div class="section-header">
+                <h1>OILS 4 US LTD</h1>
+                <p class="pale-text">Duty Of Care / Waste Transfer Note / Receipt</p>
+            </div>
+            
+            <div class="invoice-section">
+                <div class="user-detail">
+                   <p>
+                        <span class="header"></span>
+                        <!-- Burdaki adresi nasilyazidiricaz?? ----------------------------------------->
+                        <span id="userAdress" class="block-text">
+                            <%= address.restaurantName %> <br>
+                            <%= address.specification %> <br>
+                            <%= address.postcode %> <br>
+                        </span>
+                   </p> 
+                </div>
+                <div class="invoice-detail invoice-relative">
+                    <div class="flex-div">
+                        <ul class="left-side">
+                            <li>Address: <span>59-60 The Market Square, N9 0TZ</span></li>
+                            <li>Company Number: <span>9492866</span></li>
+                            <li>Registered Waste Carrier No: <span>CBDU41922</span></li>
+                            <li>VAT NO: <span>208 216 141</span></li>
+                        </ul>
+                        <ul class="right-side">
+                            <li>Invoice Date: <span id="invoiceDate"><%= invoice.date %></span></li>
+                            <li>Invoice NO: <span id="invoiceNo"><%= invoice.no %></span></li>
+                        </ul>
+                    </div>
+                    <p class="tel-number bold-text">Tel: 07753236299</p>
+                </div>
+                <div class="waste-oil-detail">
+                    <div class="waste-oil-code">
+                        <h3>BARREL SIZE</h3>
+                        <% products.forEach(product => { %>
+                        <p><span><%= product.barrelSize %> </span> Lt</p> 
+                        <% }) %>
+                    </div>
+                    
+                    <div class="total-payment">
+                        <h3>PRODUCTS</h3>
+                        <% products.forEach(product => { %>
+                            <p><span><%= product.product %> </span> Lt</p> 
+                        <% }) %>
+                    </div>
+                    
+                    <div class="total-payment">
+                        <h3>Qty</h3>
+                        <% products.forEach(product => { %>
+                            <p><span><%= product.qty %> </span> Lt</p> 
+                        <% }) %>
+                    </div>
+
+                    
+                    <div class="total-payment">
+                        <h3>PRICE</h3>
+                        <% products.forEach(product => { %>
+                            <p><span><%= product.price %> </span> Lt</p> 
+                        <% }) %>
+                        <p class="total-price">Total Price: £<span> <%= totalPrice %>  </span></p>
+                    </div>
+                </div>
+
+            </div>
+            
+
+
+            <div class="contract-section">
+                <p class="bold-text">Self-declaration on used cooking oils and fats (UCO) for biofuel production according to the directive 2009/28/EC under ISCC EU</p>
+                <div class="contract-detail">
+                    <p>Only biomass defined as the biodegradable fraction of products, waste and residues from biological origin from agriculter (including vegetal and animal substances), forestry and related industries including fisheries and quaculture, as well as the biodegradable fraction of industrial and municipal waste (Directive 2009/</p>
+                    <p>Please be aware, that animal fat is not considered biomass in some member states, biofuel produced from a feed-stock of animal origin might thus not be eligible to be counted against the biofuel quota in those member state</p>
+                    <p>Vegetable oil which has been used for cooking or frying meat and therefore may be contaminated with animal content does not classify as of animal origin</p>
+    
+                    <p>By signing this self-declaration, the signatory declares that the following requirements are met: 
+                        <span class="block-text">1. The delivery consists entirely of used cooking oil (UCO) and is not mixed with fresh oil.The cooking oil is entirely of vegetable origin</span>
+                        <span class="block-text">2. Documentation of quantities delivered is available.</span> 
+                        <span class="block-text">3. Applicable national legislation regarding waste prevention and management (e.g. transport, supervison etc.) are complied with.</span> 
+                    </p>
+    
+                    <p>Note: By signing this self-declaration, this signatory acknowledges that auditors from certification bodies (may be accompanied by inspectors from authorities with the purpose to evaluate the performance of the certification body) and staff of certification schemes can examine wheter the requirements are met as stated in this self-declaration.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
